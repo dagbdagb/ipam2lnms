@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 #  Copyright 2019 Dag Bakke <igotemail@this.is.a.dummy.com>
@@ -38,7 +38,6 @@
 #
 # dag - at - bakke - dot - com
 
-from __future__ import print_function
 import sys
 import argparse
 import pymysql as mdb
@@ -68,7 +67,7 @@ WHERE hostname LIKE "%-fw"
 '''
 
 # These are the default SNMP options when adding a host with addhost.php
-add_options = 'ap v3' # add '-f' or '-b' as needed. See addhost.php doc.
+add_options = 'ap v3'
 #############       end         ###################
 
 addcmd = '/opt/librenms/addhost.php'
@@ -116,6 +115,12 @@ def main(args):
                         help="hosts not found in phpipam will be marked as disabled in lnms. (dummy for now)")
     parser.add_argument("-c", "--commit", action='store_true', default=False,
                         help="actually execute commands")
+#    parser.add_argument("-f", "--force", action='store_true', default=False,
+#                        help="forces the device to be added by skipping the icmp and snmp check against the host.")
+#    parser.add_argument("-b", action='store_true', default=False,
+#                        help="Add the host with SNMP if it replies to it, otherwise only ICMP.")
+#    parser.add_argument("-P", action='store_true', default=False,
+#                        help="Add the host with only ICMP, no SNMP or OS discovery.")
     myargs = parser.parse_args()
 
     hosts_unique_to_librenms = []
@@ -161,7 +166,7 @@ def main(args):
 #                    print(str(ignore_result.stdout.decode('UTF-8')).rstrip())
 
 #            if myargs.disablehosts:
-#                disable_result = subprocess.run([ignorecmd, host], check=False, stdout=subprocess.PIPE, shell=False, stderr=subprocess.STDOUT)
+#                disable_result = subprocess.run([disablecmd, host], check=False, stdout=subprocess.PIPE, shell=False, stderr=subprocess.STDOUT)
 #                if myargs.verbose:
 #                    print(str(disable_result.stdout.decode('UTF-8')).rstrip())
 

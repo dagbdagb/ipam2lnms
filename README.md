@@ -34,7 +34,17 @@ There is no config file. A few variables can be set in the script.
 
 The script runs in 'dummy' mode unless you add the '-c' switch.
 When adding the '-c' switch, the script is silent save for db connection
-errors. Add '-v' for slightly more verbose output.
+errors. This means that hosts whose SNMP credentials are not the same
+as in LibreNMS config.php, or hosts which are down or unreachable will
+fail silently.
+
+Add '-v' for slightly more verbose output.
+
+I do not currently handle all options of the addhost.php script. In 
+particular, hosts must respond to SNMP to be added. 
+
+I will handle the -f, -b and -P switches later.
+
 
 ```
 # ./ipam2lnms.py --help
