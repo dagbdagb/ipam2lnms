@@ -23,7 +23,7 @@ optional arguments:
 
 
 
-This reason this script (ipam2lnms) exists, is the lack of native support for
+The reason this script (ipam2lnms) exists, is the lack of native support for
 phpIPAM in LibreNMS. Combined with the fact that I know just enough python and
 SQL to be dangerous, and could not find the motivation to learn enough php and 
 LibreNMS to fix said integration myself.
