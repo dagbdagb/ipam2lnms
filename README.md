@@ -7,7 +7,7 @@ usage: ipam2lnms.py [-h] [-v] [-a] [-d] [-i] [-z] [-c] [-f] [-b] [-P]
 optional arguments:
   -h, --help          show this help message and exit
   -v, --verbose       show verbose output
-  -a, --addhosts      hosts not found in phpipam will be added to lnms
+  -a, --addhosts      hosts only found in phpipam will be added to lnms
   -d, --deletehosts   hosts not found in phpipam will be deleted from lnms
   -i, --ignorehosts   hosts not found in phpipam will be marked as ignored in
                       lnms. (dummy for now)
