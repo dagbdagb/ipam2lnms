@@ -1,13 +1,13 @@
 #!/usr/bin/python3.6
 # -*- coding: utf-8 -*-
 #
-# This script compares the hostnames found in the devices tables 
-# of phpipam and librenms. phpipam is considered the master. 
+# This script compares the hostnames found in the devices tables
+# of phpipam and librenms. phpipam is considered the master.
 # This script will not write to the phpipam db.
 #
 # The script will not make any changes to librenms unless the '-c' switch is set.
 #
-# With the '-c' switch set, the script will add hostnames only found in in phpipam, 
+# With the '-c' switch set, the script will add hostnames only found in in phpipam,
 # to librenms.
 #
 # Hosts found in librenms are not deleted from librenms unless the '-d' switch is given.
@@ -36,18 +36,18 @@ phpipam = 'phpipam'
 
 # tune these to return only the hosts that matter to you, in column 0.
 sql_query_librenms = '''
-SELECT hostname 
-FROM devices 
+SELECT hostname
+FROM devices
 WHERE hostname LIKE "%-fw"
 '''
 
 sql_query_phpipam = '''
-SELECT hostname 
-FROM devices 
+SELECT hostname
+FROM devices
 WHERE hostname LIKE "%-fw"
 '''
 
-# These are the default SNMP options when adding a host with addhost.php 
+# These are the default SNMP options when adding a host with addhost.php
 add_options = 'ap v3' # add '-f' or '-b' as needed. See addhost.php doc.
 #############       end         ###################
 
@@ -86,17 +86,15 @@ def getdbdata(query, db, verbose):
 
 def main(args):
     parser = argparse.ArgumentParser()
-    parser.add_argument("-v", "--verbose", action='store_true', default=False, 
+    parser.add_argument("-v", "--verbose", action='store_true', default=False,
                         help="show verbose output")
-    parser.add_argument("-d", "--deletehosts", action='store_true', default=False, 
+    parser.add_argument("-d", "--deletehosts", action='store_true', default=False,
                         help="hosts not found in phpipam will be deleted from lnms")
-    parser.add_argument("-i", "--ignorehosts", action='store_true', default=False, 
+    parser.add_argument("-i", "--ignorehosts", action='store_true', default=False,
                         help="hosts not found in phpipam will be marked as ignored in lnms. (dummy for now)")
-    parser.add_argument("-z", "--disablehosts", action='store_true', default=False, 
+    parser.add_argument("-z", "--disablehosts", action='store_true', default=False,
                         help="hosts not found in phpipam will be marked as disabled in lnms. (dummy for now)")
-    parser.add_argument("-q", "--quiet", action='store_true', default=False, 
-                        help="no output, except errors")
-    parser.add_argument("-c", "--commit", action='store_true', default=False, 
+    parser.add_argument("-c", "--commit", action='store_true', default=False,
                         help="actually execute commands")
     myargs = parser.parse_args()
 

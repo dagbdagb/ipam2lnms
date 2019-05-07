@@ -7,6 +7,11 @@ LibreNMS to fix said integration myself.
 
 I love both LibreNMS and phpIPAM. But clearly not enough .....
 
+I am hoping for someone with the right combination of php knowledge and 
+available time/energy/karmadeficit to create the commands ignorehost.php 
+and disablehost.php. Or better yet: make this script obsolete by making 
+proper support for phpIPAM in LibreNMS.
+
 
 Anyways:
 
@@ -21,14 +26,15 @@ LibreNMS' config.php.
 It can optionally delete hosts from LibreNMS, which are unique to LibreNMS.
 I.e. not found in phpIPAM
 
-(I am hoping for someone with the right combination of php knowledge and 
-available time/energy/karmadeficit to create the commands ignorehost.php 
-and disablehost.php. Or better yet: make this script obsolete by making 
-proper support for phpIPAM in LibreNMS.) 
-
 The script makes no modification to phpIPAM, and only modifies LibreNMS via
 the native LibreNMS scripts. The script itself only requires a read-only 
 db-account.
+
+There is no config file. A few variables can be set in the script.
+
+The script runs in 'dummy' mode unless you add the '-c' switch.
+When adding the '-c' switch, the script is silent save for db connection
+errors. Add '-v' for slightly more verbose output.
 
 ```
 # ./ipam2lnms.py --help
@@ -84,7 +90,13 @@ MariaDB [(none)]> flush privileges;
 MariaDB [(none)]> \q
 ```
 
-The IP address shown in the 'grant' command is the host from which the script will be executed.
+The IP address shown in the 'grant' command is the host from which the script
+will be executed. I expect most users to run this script on the same host as 
+the LibreNMS db. Hence using localhost for accessing that db.
+
+If your phpIPAM db runs on the same host, tune .my.cnf and the grant command
+accordingly.
+
 
 
 
