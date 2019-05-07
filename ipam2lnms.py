@@ -1,5 +1,23 @@
-#!/usr/bin/python3.6
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+#
+#  Copyright 2019 Dag Bakke <igotemail@this.is.a.dummy.com>
+#  
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#  
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#  MA 02110-1301, USA.
+#
 #
 # This script compares the hostnames found in the devices tables
 # of phpipam and librenms. phpipam is considered the master.
@@ -17,8 +35,10 @@
 #
 # The web ui and the database allows for this, but there is as of yet not a CLI script
 # to do it. I do not want to publish a script changing the db directly.
+#
+# dag - at - bakke - dot - com
 
-
+from __future__ import print_function
 import sys
 import argparse
 import pymysql as mdb
