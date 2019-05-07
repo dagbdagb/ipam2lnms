@@ -107,6 +107,8 @@ def main(args):
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--verbose", action='store_true', default=False,
                         help="show verbose output")
+    parser.add_argument("-a", "--addhosts", action='store_true', default=False,
+                        help="hosts not found in phpipam will be added to lnms")
     parser.add_argument("-d", "--deletehosts", action='store_true', default=False,
                         help="hosts not found in phpipam will be deleted from lnms")
     parser.add_argument("-i", "--ignorehosts", action='store_true', default=False,
@@ -115,12 +117,12 @@ def main(args):
                         help="hosts not found in phpipam will be marked as disabled in lnms. (dummy for now)")
     parser.add_argument("-c", "--commit", action='store_true', default=False,
                         help="actually execute commands")
-#    parser.add_argument("-f", "--force", action='store_true', default=False,
-#                        help="forces the device to be added by skipping the icmp and snmp check against the host.")
-#    parser.add_argument("-b", action='store_true', default=False,
-#                        help="Add the host with SNMP if it replies to it, otherwise only ICMP.")
-#    parser.add_argument("-P", action='store_true', default=False,
-#                        help="Add the host with only ICMP, no SNMP or OS discovery.")
+    parser.add_argument("-f", "--force", action='store_true', default=False,
+                        help="forces the device to be added by skipping the icmp and snmp check against the host.")
+    parser.add_argument("-b", action='store_true', default=False,
+                        help="Add the host with SNMP if it replies to it, otherwise only ICMP.")
+    parser.add_argument("-P", action='store_true', default=False,
+                        help="Add the host with only ICMP, no SNMP or OS discovery.")
     myargs = parser.parse_args()
 
     hosts_unique_to_librenms = []
@@ -141,10 +143,21 @@ def main(args):
         print("\nhosts unique to librenms:\n" + str(hosts_unique_to_librenms))
         print("\nhosts unique to phpipam:\n" + str(hosts_unique_to_phpipam) + "\n")
 
+    forceopts = ""
+    if myargs.force:
+        forceopts += "f"
+    if myargs.b:
+        forceopts += "b"
+    if myargs.P:
+        forceopts += "P"
+    if forceopts:
+        forceopts = "-" + forceopts
+
     if not myargs.commit: # pretend
         print("This is what will happen if you add the '-c' switch:")
         for host in hosts_unique_to_phpipam:
-            print(f"{addcmd} {host} {add_options}")
+            if myargs.addhosts:
+                print(f"{addcmd} {forceopts} {host} {add_options}")
         for host in hosts_unique_to_librenms:
             if myargs.ignorehosts:
                 print(f"{ignorecmd} {host}     <- dummy")
@@ -155,9 +168,10 @@ def main(args):
 
     else: # myargs.commit is true
         for host in hosts_unique_to_phpipam:
-            add_result = subprocess.run([addcmd, host, add_options], check=False, stdout=subprocess.PIPE, shell=False, stderr=subprocess.STDOUT)
-            if myargs.verbose:
-                print(str(add_result.stdout.decode('UTF-8')).rstrip())
+            if myargs.addhosts:
+                add_result = subprocess.run([addcmd, forceopts, host, add_options], check=False, stdout=subprocess.PIPE, shell=False, stderr=subprocess.STDOUT)
+                if myargs.verbose:
+                    print(str(add_result.stdout.decode('UTF-8')).rstrip())
 
         for host in hosts_unique_to_librenms: # ignore, disable or delete hosts
 #            if myargs.ignorehosts:
