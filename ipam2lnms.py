@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-#  Copyright 2019 Dag Bakke <igotemail@this.is.a.dummy.com>
+#  Copyright 2019 Dag Bakke <igotemail@thisisadummy.com>
 #  
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -20,21 +20,13 @@
 #
 #
 # This script compares the hostnames found in the devices tables
-# of phpipam and librenms. phpipam is considered the master.
-# This script will not write to the phpipam db.
+# of phpIPAM and LibreNMS. phpIPAM is considered the master.
 #
-# The script will not make any changes to librenms unless the '-c' switch is set.
+# This script will not write to the phpIPAM db, and may change the
+# LibreNMS only if the '-c' switch is set.
 #
-# With the '-c' switch set, the script will add hostnames only found in in phpipam,
-# to librenms.
 #
-# Hosts found in librenms are not deleted from librenms unless the '-d' switch is given.
-#
-# Alternatives to '-d' are '-i(gnore) and -z(zzzzzz - disable)
-# The code for ignore/disable is just dummy code for now.
-#
-# The web ui and the database allows for this, but there is as of yet not a CLI script
-# to do it. I do not want to publish a script changing the db directly.
+# See README.md for further information.
 #
 # dag - at - bakke - dot - com
 
@@ -43,17 +35,15 @@ import argparse
 import pymysql as mdb
 import subprocess
 
-# To avoid db credentials in the script, I use my.cnf
-# Refer to README
 
 ############    stuff which may need tuning by you    ################
-dbcreds = '~/.my.cnf'
+dbcreds = '~/.my.cnf' # See README.md
 
 # these denotes stanzas in $dbcreds
 librenms = 'librenms'
 phpipam = 'phpipam'
 
-# tune these to return only the hosts that matter to you, in column 0.
+# tune these two to return only the hosts that matter to you, in column 0.
 sql_query_librenms = '''
 SELECT hostname
 FROM devices
@@ -66,8 +56,7 @@ FROM devices
 WHERE hostname LIKE "%-fw"
 '''
 
-# These are the default SNMP options when adding a host with addhost.php
-add_options = 'ap v3'
+add_options = 'ap v3' # default SNMP options
 #############       end         ###################
 
 addcmd = '/opt/librenms/addhost.php'
