@@ -97,7 +97,7 @@ def main(args):
     parser.add_argument("-v", "--verbose", action='store_true', default=False,
                         help="show verbose output")
     parser.add_argument("-a", "--addhosts", action='store_true', default=False,
-                        help="hosts not found in phpipam will be added to lnms")
+                        help="hosts only found in phpipam will be added to lnms")
     parser.add_argument("-d", "--deletehosts", action='store_true', default=False,
                         help="hosts not found in phpipam will be deleted from lnms")
     parser.add_argument("-i", "--ignorehosts", action='store_true', default=False,
